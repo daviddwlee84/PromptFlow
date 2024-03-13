@@ -4,6 +4,8 @@ Playing some Prompt Flow stuff
 
 ## Getting Started
 
+### Streamlit
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -17,6 +19,12 @@ cp example.env .env
 
 ```bash
 streamlit run Overview.py
+```
+
+### Prompt Flow
+
+```bash
+pf flow init --flow ./flows/simple_chat --type chat
 ```
 
 ## Todo
