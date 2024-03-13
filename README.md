@@ -47,7 +47,13 @@ pf connection create --file ./flows/simple_chat/azure_openai.yaml --set api_key=
 ```
 
 ```powershell
+# Interactive test
 pf flow test --flow ./flows/simple_chat --interactive
+
+# or
+
+# Single run with default input
+pf flow test --flow ./flows/simple_chat
 ```
 
 ## Todo
