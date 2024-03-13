@@ -2,6 +2,7 @@ import streamlit as st
 from typing import Literal, Tuple
 import os
 import openai
+import requests
 
 
 def generate_api_and_language_model_selection() -> Literal["OpenAI", "Azure OpenAI"]:
@@ -76,3 +77,33 @@ def extract_error_from_openai_BadRequestError(
         if result["filtered"]:
             error_reason[reason] = result["severity"]
     return error_message, error_reason
+
+
+class PromptFlowScoring:
+    def __init__(self, endpoint: str, key: str) -> None:
+        self.endpoint = endpoint
+        self.key = key
+        # https://stackoverflow.com/questions/29931671/making-an-api-call-in-python-with-an-api-that-requires-a-bearer-token
+        # TODO: https://requests.readthedocs.io/en/latest/user/authentication/#new-forms-of-authentication
+        self.headers = {
+            "Authorization": f"Bearer {key}",
+            "Content-Type": "application/json",
+        }
+
+    def call(self, data: dict) -> requests.Response:
+        return requests.post(self.endpoint, headers=self.headers, json=data)
+
+    def query(self, data: dict) -> dict:
+        response = self.call(data)
+        if response.status_code != 200:
+            return {"error": response.text}
+        return response.json()
+
+
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+    load_dotenv()
+    scoring = PromptFlowScoring(os.getenv("PROMPT_FLOW_SCORING_ENDPOINT"), os.getenv("PROMPT_FLOW_KEY"))
+    print(response := scoring.call({"question": "What is DRI?"}))
+    print(answer := scoring.query({"question": "What do you know?"}))
+    import ipdb; ipdb.set_trace()
