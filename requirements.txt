@@ -1,0 +1,12 @@
+# Prompt Flow
+promptflow
+promptflow-tools
+
+# UI
+streamlit
+
+# API Key
+python-dotenv
+
+# LLM
+openai
