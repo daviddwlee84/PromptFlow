@@ -1,5 +1,5 @@
 import streamlit as st
-from typing import Literal, Tuple
+from typing import Literal, Tuple, Dict, List
 import os
 import openai
 import requests
@@ -78,6 +78,58 @@ def extract_error_from_openai_BadRequestError(
             error_reason[reason] = result["severity"]
     return error_message, error_reason
 
+def construct_prompt_flow_chat_history_from_openai(openai_format_chat_history: List[Dict[str, str]]):
+    """
+    TODO:
+
+    Convert
+
+    [
+        {
+            "role": "user",
+            "content": "What is DRI?"
+        },
+        {
+            "role": "assistant",
+            "content": "DRI stands for Directly Responsible Individual. In the context of DRI Responsibilities, the DRI is the primary person responsible for specific tasks and responsibilities outlined in the document. (Source: DRI Responsibilities.md)"
+        },
+        {
+            "role": "user",
+            "content": "What is IcM?"
+        },
+        {
+            "role": "assistant",
+            "content": "IcM stands for Incident and Change Management. It is a system or process used to manage and track incidents and changes within an organization. (Source: DRI Responsibilities.md)"
+        }
+    ]
+
+    To
+
+    {
+        "chat_history": [
+            {
+                "id": "45fee55b-42d4-4588-9b3d-86eaca859e8a",
+                "inputs": {"question": "I'm David"},
+                "outputs": {
+                    "answer": "Hello David! How can I assist you today?"
+                },
+                "duration": 2.9924000000059605,
+                "navId": "37a4ba7e-55e8-43cc-a65e-dd2bc55bd2eb",
+            },
+            {
+                "id": "ed82197c-a77b-45e6-9046-48001674e869",
+                "inputs": {"question": "Who am I?"},
+                "outputs": {
+                    "output": "You are David, as you mentioned earlier. Is there anything specific you would like assistance with, David?"
+                },
+                "duration": 2.1015,
+                "navId": "37a4ba7e-55e8-43cc-a65e-dd2bc55bd2eb",
+            },
+        ]
+    }
+
+    NOTE: Prompt Flow history is inputs-outputs pair, while openai is assistant and human individual
+    """
 
 class PromptFlowScoring:
     def __init__(self, endpoint: str, key: str = None) -> None:
@@ -98,6 +150,7 @@ class PromptFlowScoring:
         return requests.post(self.endpoint, headers=self.headers, json=data)
 
     def query(self, data: dict) -> dict:
+        # BUG: requests.exceptions.InvalidJSONError: Circular reference detected
         response = self.call(data)
         if response.status_code != 200:
             return {"error": response.text}
