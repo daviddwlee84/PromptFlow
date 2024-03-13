@@ -80,15 +80,19 @@ def extract_error_from_openai_BadRequestError(
 
 
 class PromptFlowScoring:
-    def __init__(self, endpoint: str, key: str) -> None:
+    def __init__(self, endpoint: str, key: str = None) -> None:
+        """
+        Using local endpoint can run without key
+        """
         self.endpoint = endpoint
         self.key = key
         # https://stackoverflow.com/questions/29931671/making-an-api-call-in-python-with-an-api-that-requires-a-bearer-token
         # TODO: https://requests.readthedocs.io/en/latest/user/authentication/#new-forms-of-authentication
         self.headers = {
-            "Authorization": f"Bearer {key}",
             "Content-Type": "application/json",
         }
+        if key:
+            self.headers["Authorization"] = f"Bearer {key}"
 
     def call(self, data: dict) -> requests.Response:
         return requests.post(self.endpoint, headers=self.headers, json=data)
@@ -102,8 +106,17 @@ class PromptFlowScoring:
 
 if __name__ == "__main__":
     from dotenv import load_dotenv
+
     load_dotenv()
-    scoring = PromptFlowScoring(os.getenv("PROMPT_FLOW_SCORING_ENDPOINT"), os.getenv("PROMPT_FLOW_KEY"))
+    scoring = PromptFlowScoring(
+        os.getenv("PROMPT_FLOW_SCORING_ENDPOINT"), os.getenv("PROMPT_FLOW_KEY")
+    )
     print(response := scoring.call({"question": "What is DRI?"}))
     print(answer := scoring.query({"question": "What do you know?"}))
-    import ipdb; ipdb.set_trace()
+
+    local_scoring = PromptFlowScoring("http://localhost:28080/score")
+    print(local_response := local_scoring.call({"question": "How is your day?"}))
+
+    import ipdb
+
+    ipdb.set_trace()

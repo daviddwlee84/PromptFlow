@@ -56,10 +56,26 @@ pf flow test --flow ./flows/simple_chat --interactive
 pf flow test --flow ./flows/simple_chat
 ```
 
+- [Deploy a flow using development server — Prompt flow documentation](https://microsoft.github.io/promptflow/how-to-guides/deploy-a-flow/deploy-using-dev-server.html)
+
+```powershell
+# Serving API (serve a simple chat web UI)
+pf flow serve --source ./flows/simple_chat --port 28080 --host localhost
+
+$response = Invoke-WebRequest -URI http://localhost:28080/score -Body '{"question":"How are you?"}' -Method POST  -ContentType "application/json"
+echo $response.Content
+```
+
+```bash
+curl http://localhost:28080/score --data '{"question":"How are you?"}' -X POST  -H "Content-Type: application/json"
+```
+
 ## Todo
 
 - [ ] Create flow
 - [X] Call Prompt Flow scoring API
+- [ ] Clean history button
+- [ ] Docker Compose for running Prompt Flow & Streamlit at the same time (specify flow)
 
 ## Resources
 

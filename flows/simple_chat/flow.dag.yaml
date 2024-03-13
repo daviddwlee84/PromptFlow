@@ -10,7 +10,7 @@ inputs:
     # Give default value for pf flow test (won't be used in interactive mode)
     default: How can I help you?
 outputs:
-  answer:
+  output:
     type: string
     reference: ${chat.output}
     is_chat_output: true

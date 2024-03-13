@@ -42,6 +42,7 @@ with st.sidebar:
     )
 
 download_button = st.empty()
+# TODO: clean history button
 
 
 if "prompt_flow_scoring_history" not in st.session_state:
@@ -63,7 +64,6 @@ for msg in st.session_state.prompt_flow_scoring_history:
 if prompt := st.chat_input():
     if (
         not st.session_state.prompt_flow_scoring_endpoint
-        or not st.session_state.prompt_flow_scoring_key
     ):
         st.warning("🥸 Please add your Prompt Flow Endpoint and Key to continue.")
         st.stop()
