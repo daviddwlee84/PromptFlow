@@ -1,6 +1,6 @@
 # Prompt Flow
-promptflow
-promptflow-tools
+promptflow>=1.1.0
+promptflow-tools>=1.0.0
 
 # UI
 streamlit
