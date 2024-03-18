@@ -76,6 +76,14 @@ curl http://localhost:28080/score --data '{"question":"How are you?"}' -X POST  
 - [X] Call Prompt Flow scoring API
 - [ ] Clean history button
 - [ ] Docker Compose for running Prompt Flow & Streamlit at the same time (specify flow)
+- [ ] Try build index locally
+  - Faiss
+    - [Faiss Index Lookup — Prompt flow documentation](https://microsoft.github.io/promptflow/reference/tools-reference/faiss_index_lookup_tool.html)
+    - [Faiss | 🦜️🔗 Langchain](https://python.langchain.com/docs/integrations/vectorstores/faiss)
+    - [Faiss: A library for efficient similarity search - Engineering at Meta](https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/)
+    - [Welcome to Faiss Documentation — Faiss documentation](https://faiss.ai/)
+    - [facebookresearch/faiss: A library for efficient similarity search and clustering of dense vectors.](https://github.com/facebookresearch/faiss)
+    - [Faiss Index Lookup tool in Azure Machine Learning prompt flow - Azure Machine Learning | Microsoft Learn](https://learn.microsoft.com/en-us/azure/machine-learning/prompt-flow/tools-reference/faiss-index-lookup-tool?view=azureml-api-2)
 
 ## Resources
 
