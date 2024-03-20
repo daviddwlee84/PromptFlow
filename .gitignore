@@ -1,3 +1,6 @@
+notebooks/data
+notebooks/faiss_index_store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
