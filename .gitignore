@@ -1,5 +1,6 @@
 notebooks/data
 notebooks/faiss_index_store
+notebooks/langchain_faiss_index
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
